@@ -1,0 +1,61 @@
+{
+    "model_params": {
+        "input_channels": 3,
+        "output_channels": 3,
+        "initial_channels": 32,
+        "resolution_channels": [
+            32, 64, 128, 256, 512
+        ],
+        "norm_type": "group",
+        "norm_groups": 8,
+        "downsample_factor": 2,
+        "dropout": 0.1,
+        "activation": "silu",
+        "normalization": "group",
+        "groups": 8,
+        "attention_resolution": [
+            false, false, true, true, true
+        ],
+        "resblock_count": [
+            1, 2, 2, 2, 2
+        ],
+        "time_embedding_dim": 128,
+        "middle_unet_blocks": [
+            "res", "attn", "res", "attn", "res", "attn"
+        ],
+        "attention_heads": 4,
+        "num_classes": 10
+    },
+    "diffusion_params": {
+        "model_mean_type": "epsilon",
+        "model_var_type": "learned_range",
+        "loss_type": "rescaled_mse",
+        "timesteps_respacing": "",
+        "diffusion_steps": 1000,
+        "noise_schedule": "loss_second_moment",
+        "betas_schedule": "cosine",
+        "rescale_timesteps": true,
+        "rescale_learned_sigmas": true,
+        "class_cond": true
+    },
+    "data_params": {
+        "shuffle": true,
+        "batch_size": 16,
+        "microbatch_size": -1,
+        "resolution": 64,
+        "image_directory": "data/cifar_train/",
+        "num_classes": 10
+    },
+    "trainer_params" : {
+        "lr": 1e-4,
+        "ema_rate": 0.999, 
+        "log_interval": 10,
+        "log_image_interval": 10,
+        "save_image_directory": "./logs/images/",
+        "save_interval": 1000,
+        "save_directory": "./logs/",
+        "weight_decay": 0.0,
+        "lr_anneal_steps": 0,
+        "log_file": "./logs/training_diffusion_v1.log"
+    } 
+}
