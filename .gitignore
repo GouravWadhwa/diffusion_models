@@ -5,3 +5,6 @@
 
 # ignore all the logs
 logs/*
+
+# ignore all the compiled files
+*.pyc
