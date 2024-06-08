@@ -307,7 +307,7 @@ class GaussianDiffusion(nn.Module):
             "pred_x0": out["pred_x0"]
         }
     
-    def p_sample_loop(self, model, shape, noise=None, clip_denoised=True, denoised_fn=None, model_kwargs=None, device=None, progress=False):
+    def p_sample_loop(self, model, shape, noise=None, clip_denoised=True, denoised_fn=None, model_kwargs=None, device=None, progress=True):
         """
         Generates the samples from the model
 
@@ -341,7 +341,7 @@ class GaussianDiffusion(nn.Module):
             indices = tqdm(indices)
 
         samples = {}
-        for i in indices:
+        for i in tqdm(indices):
             t = torch.tensor([i] * shape[0], device=device)
             with torch.no_grad():
                 out = self.p_sample(
