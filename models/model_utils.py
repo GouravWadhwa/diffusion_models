@@ -15,8 +15,6 @@ class Activation(nn.Module):
             self.activation = nn.SiLU(inplace=inplace)
         elif activation == 'leaky_relu':
             self.activation = nn.LeakyReLU(inplace=inplace, negative_slope=leaky_relu_slope)
-        elif activation == "swish":
-            self.activation = nn.Swish()
         elif activation == 'none':
             self.activation = nn.Identity()
         else:
@@ -173,7 +171,7 @@ class Attention(nn.Module):
         qkv = einops.rearrange(qkv, 'b (n c) h w -> b n c h w', c=self.channel_head * 3, n=self.num_heads)
         query, key, value = torch.chunk(qkv, 3, dim=2)
 
-        attention = torch.einsum('bnchw, bncxy -> bnhwxy', query, key).contiguous() / torch.math.sqrt(self.num_heads)
+        attention = torch.einsum('bnchw, bncxy -> bnhwxy', query, key).contiguous() / torch.math.sqrt(self.channel_head)
         attention = einops.rearrange(attention, 'b n h w x y -> b n h w (x y)')
         attention = torch.softmax(attention, dim=-1)
         attention = einops.rearrange(attention, 'b n x y (h w) -> b n x y h w', h=h, w=w)
